@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Astra | Focus Time Tracker</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<main class="app">
+
+  <header class="hero">
+    
+    <h1>Astra</h1>
+    <p class="subtitle">Track where your time truly goes.</p>
+  </header>
+
+  <section id="homeView">
+
+    <section class="clock-section">
+      <div class="live-clock" id="liveClock">
+        00:00:00
+      </div>
+
+      <p class="clock-label">
+        Current Time
+      </p>
+    </section>
+
+    <section class="create-activity">
+      <input 
+        type="text"
+        id="activityInput"
+        placeholder="Create new activity..."
+      />
+
+      <input
+        type="number"
+        id="goalInput"
+        placeholder="Daily goal (hours)"
+        min="1"
+        max="24"
+      />
+
+      <button id="createActivityBtn">
+        Create
+      </button>
+    </section>
+
+    <section class="activities-section">
+      <div id="activitiesGrid">
+        <!-- activity cards render here -->
+      </div>
+    </section>
+
+  </section>
+
+  <section id="detailView" style="display: none;">
+    <!-- DETAIL -->
+  </section>
+
+</main>
+
+  <script src="index.js"></script>
+</body>
+</html>

@@ -1,0 +1,396 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at top left, #e0f2fe 0, transparent 32%),
+    radial-gradient(circle at top right, #fce7f3 0, transparent 30%),
+    #f8fafc;
+  color: #111827;
+}
+
+.app {
+  width: min(1120px, 92%);
+  margin: 0 auto;
+  padding: 72px 0 96px;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(56px, 8vw, 104px);
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  line-height: 0.95;
+}
+
+.subtitle {
+  margin: 3px 0 0;
+  font-size: 17px;
+  color: #64748b;
+}
+
+.clock-section {
+  text-align: center;
+  margin-bottom: 42px;
+}
+
+.live-clock {
+  font-size: clamp(52px, 10vw, 118px);
+  font-weight: 300;
+  letter-spacing: -0.06em;
+  line-height: 1;
+}
+
+.clock-label {
+  margin: 12px 0 0;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.create-activity {
+  display: grid;
+  grid-template-columns: 1fr 180px auto;
+  gap: 12px;
+  margin: 0 auto 44px;
+  padding: 14px;
+  max-width: 860px;
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 28px;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(18px);
+}
+
+#activityInput,
+#goalInput {
+  height: 54px;
+  border: none;
+  border-radius: 18px;
+  padding: 0 18px;
+  font: inherit;
+  background: rgba(248, 250, 252, 0.9);
+  color: #111827;
+  outline: none;
+}
+
+#activityInput:focus,
+#goalInput:focus {
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.35);
+}
+
+#createActivityBtn {
+  height: 54px;
+  border: none;
+  border-radius: 18px;
+  padding: 0 26px;
+  font: inherit;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: #111827;
+  color: #ffffff;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+#createActivityBtn:hover {
+  transform: translateY(-1px);
+  background: #1e293b;
+}
+
+.activities-section {
+  margin-top: 20px;
+}
+
+#activitiesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+
+.activity-name {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.activity-time {
+  margin-top: 0px;
+  font-size: 34px;
+  font-weight: 300;
+  letter-spacing: -0.04em;
+}
+
+.activity-goal {
+  margin-top: 0px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+
+/* ACTIVITY CARDS */
+
+/* ACTIVITY CARDS */
+
+.activity-card {
+  min-height: 190px;
+  padding: 24px;
+  border-radius: 30px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.82),
+      rgba(239, 246, 255, 0.48),
+      rgba(252, 231, 243, 0.30)
+    );
+
+  border: 1px solid rgba(148, 163, 184, 0.22);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  box-shadow:
+    0 18px 50px rgba(15, 23, 42, 0.05),
+    inset 0 1px 0 rgba(255,255,255,0.45);
+    
+
+  display: flex;
+  flex-direction: column;
+
+   transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.45s ease;
+}
+
+.activity-card:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 22px 60px rgba(15, 23, 42, 0.07),
+    inset 0 1px 0 rgba(255,255,255,0.55);
+}
+
+
+
+.divH3 {
+  margin: 0 0 15px;
+  font-size: 22px;
+  font-weight: 450;
+  letter-spacing: 0em;
+  color: #111827;
+}
+
+.activity-time {
+  margin: 0 0 18px;
+  font-size: 46px;
+  font-weight: 300;
+  letter-spacing: -0.06em;
+  line-height: 1;
+  color: #111827;
+}
+
+.activity-goal {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.activity-progress {
+  margin: 0 0 20px;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.activity-actions {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.openBtn,
+.deleteBtn {
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.openBtn {
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 999px;
+  background: #111827;
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.openBtn:hover {
+  transform: translateY(-1px);
+  background: #1e293b;
+}
+
+.deleteBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.06);
+  color: #64748b;
+  font-size: 18px;
+}
+
+.deleteBtn:hover {
+  background: rgba(15, 23, 42, 0.12);
+}
+
+/* DETAIL VIEW */
+
+#detailView {
+  margin-top: 0px;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 5px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.back-btn {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.detail-card {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 32px 0 20px;
+  text-align: center;
+}
+
+
+.detail-title {
+  margin: 0 0 32px;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 350;
+  letter-spacing: -0.06em;
+  color: #111827;
+}
+
+.detail-time {
+  margin: 0;
+  font-size: clamp(72px, 13vw, 170px);
+  font-weight: 300;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  color: #111827;
+}
+
+.detail-goal {
+  margin: 34px 0 8px;
+  font-size: 15px;
+  color: #64748b;
+}
+
+.detail-progress {
+  margin: 0;
+  font-size: 15px;
+  color: #64748b;
+}
+
+.timer-controls {
+  margin-top: 38px;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.timer-btn {
+  height: 54px;
+  min-width: 120px;
+  border: none;
+  border-radius: 999px;
+  padding: 0 26px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 650;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.66);
+  color: #111827;
+  box-shadow: 0 16px 50px rgba(15, 23, 42, 0.08);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.timer-btn:hover {
+  transform: translateY(-2px);
+  background: white;
+}
+
+.timer-btn.primary {
+  background: #111827;
+  color: white;
+}
+
+.timer-btn.ghost {
+  background: rgba(15, 23, 42, 0.06);
+}
+
+@media (max-width: 900px) {
+  #activitiesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .create-activity {
+    grid-template-columns: 1fr;
+  }
+
+  #createActivityBtn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .app {
+    width: 90%;
+    padding-top: 48px;
+  }
+
+  .hero {
+    margin-bottom: 34px;
+  }
+
+  .clock-section {
+    margin-bottom: 32px;
+  }
+
+  #activitiesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .activity-card {
+    min-height: 150px;
+  }
+}
