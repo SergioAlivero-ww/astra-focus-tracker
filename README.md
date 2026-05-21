@@ -104,3 +104,27 @@ I also spent time improving the visual direction of Astra.
 The app is moving toward a calm, futuristic and minimal interface with soft glassmorphism and large typography inspired by premium productivity tools.
 
 For the first time, I feel like I’m not only writing code — I’m starting to understand how applications are actually designed.
+
+## 21.05.2026
+
+The last few days were not focused on adding new features.
+
+Instead, I spent time revisiting the existing code, rewriting parts from memory and making sure I understood the logic behind them. I wanted to avoid moving forward without understanding the foundations of the project.
+
+During this period I reviewed:
+
+- state management
+- localStorage persistence
+- rendering flow
+- detail view architecture
+- array methods such as find() and filter()
+- utility functions and data transformation
+
+Today I moved forward with Astra's first time-related functionality.
+
+I implemented a live clock and, more importantly, took time to fully understand how JavaScript works with time values. I learned how to retrieve the current time using the Date object, how to format hours, minutes and seconds into a readable HH:MM:SS format, and why methods such as String() and padStart() are necessary when displaying time.
+
+I also planned the architecture of the activity timer. Before writing the feature itself, I mapped out how timer state should work, how start and pause actions will be handled, and how elapsed time can be calculated using timestamps.
+
+This was a small coding day, but an important learning day. The goal was not to write more code, but to understand the mechanisms that the next features will rely on.
+

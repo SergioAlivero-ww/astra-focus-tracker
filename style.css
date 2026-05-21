@@ -46,9 +46,11 @@ body {
 
 .live-clock {
   font-size: clamp(52px, 10vw, 118px);
-  font-weight: 300;
-  letter-spacing: -0.06em;
+  font-weight: 350;
+  letter-spacing: -0.1px;
   line-height: 1;
+  font-variant-numeric: tabular-nums;
+  min-width: 8ch;
 }
 
 .clock-label {

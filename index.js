@@ -10,14 +10,15 @@ let activities = [];
 
 function saveToStorage() {
     localStorage.setItem("saved_activities", JSON.stringify(activities));
-};
+}
+
 
 function loadFromStorage() {
     const savedActivities = localStorage.getItem("saved_activities");
-    if (savedActivities) {
+    if(savedActivities) {
         activities = JSON.parse(savedActivities);
-    }
-};
+    };
+}
 
 addBtn.addEventListener('click', () => {
     const name = activityInput.value.trim();
@@ -144,7 +145,21 @@ function formatTime(seconds) {
     return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
 }
 
+function updateClock() {
+    const now = new Date();
 
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+
+    const currentTime = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+
+    clock.innerHTML = currentTime;
+}
+
+updateClock();
+
+setInterval(updateClock, 1000);
 
 loadFromStorage();
 renderActivities();
