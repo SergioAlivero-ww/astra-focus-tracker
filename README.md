@@ -128,3 +128,33 @@ I also planned the architecture of the activity timer. Before writing the featur
 
 This was a small coding day, but an important learning day. The goal was not to write more code, but to understand the mechanisms that the next features will rely on.
 
+## 23.05.2026
+
+Today was focused almost entirely on application logic rather than writing large amounts of code.
+
+Before implementing Astra's timer system, I wanted to understand exactly how it should work and what information needs to be stored inside the state.
+
+I mapped out the full timer flow:
+
+- what happens when Start is pressed
+- how the application remembers the moment tracking began
+- how Pause calculates elapsed time
+- how tracked time is added to the current daily total
+- how the UI and state should stay synchronized
+
+The most important realization was understanding that the timer should not simply count seconds endlessly. Instead, Astra stores the moment when tracking starts (`startedAt`) and later calculates the elapsed time using timestamps.
+
+Current timer architecture:
+
+Start:
+- `isRunning = true`
+- `startedAt = Date.now()`
+
+Pause:
+- calculate elapsed time using `Date.now() - startedAt`
+- convert milliseconds into seconds
+- add the result to `todaySeconds`
+- set `isRunning = false`
+- reset `startedAt` to `null`
+
+Today was less about coding and more about designing a reliable system before implementation. Understanding the flow of data and state transitions is becoming just as important as writing the code itself.
