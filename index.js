@@ -134,7 +134,28 @@ function openActivity(id) {
         homeView.style.display = "block";
         renderActivities();
     });
+
+    const startBtn = document.getElementById("startBtn");
+
+    startBtn.addEventListener('click', () => {
+        startTimer(id);
+    });
 };
+
+function startTimer(id) {
+    activities = activities.map(a => {
+        if (a.id === id) {
+            return {
+                ...a,
+                isRunning: true,
+                startedAt: Date.now()
+            }
+        }
+        return a
+    });
+    saveToStorage();
+    openActivity(id);
+}
 
 
 function formatTime(seconds) {

@@ -158,3 +158,21 @@ Pause:
 - reset `startedAt` to `null`
 
 Today was less about coding and more about designing a reliable system before implementation. Understanding the flow of data and state transitions is becoming just as important as writing the code itself.
+
+
+## 26.05.2026 
+
+Over the last two sessions I focused on understanding how Astra's timer should work internally.
+
+The implementation itself is not particularly large, but it introduces a new concept for me: calculating time using timestamps and updating displayed values based on elapsed time.
+
+At the moment I understand the overall architecture:
+
+- Start should save the current timestamp
+- Pause should calculate elapsed time
+- Elapsed time should be added to the daily total
+- The timer displayed on screen should reflect both saved and currently tracked time
+
+However, I still need more time to fully understand the flow and how all parts work together. Rather than rushing implementation, I decided to spend additional time analyzing the logic and making sure I understand the mechanism before moving forward.
+
+The goal of the next session is to finish understanding the timer architecture and begin implementing the tracking logic.
