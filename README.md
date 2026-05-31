@@ -176,3 +176,50 @@ At the moment I understand the overall architecture:
 However, I still need more time to fully understand the flow and how all parts work together. Rather than rushing implementation, I decided to spend additional time analyzing the logic and making sure I understand the mechanism before moving forward.
 
 The goal of the next session is to finish understanding the timer architecture and begin implementing the tracking logic.
+
+### 31.05.2026 — Timer System Complete
+
+Over the last few sessions I focused almost entirely on understanding and implementing Astra's timer system.
+
+At first, the timer seemed deceptively simple. However, it introduced several concepts that were new to me:
+
+timestamps (Date.now())
+elapsed time calculations
+live UI updates with setInterval
+separating application state from displayed values
+understanding the difference between stored data and calculated data
+
+Instead of rushing the implementation, I spent multiple sessions breaking the mechanism down into smaller pieces and making sure I understood how each part worked before moving on.
+
+What was implemented
+
+The timer now supports:
+
+starting a tracking session
+pausing a tracking session
+live time updates in the activity detail view
+calculating elapsed time using timestamps
+storing completed session time in todaySeconds
+preserving timer data through Local Storage
+Important architectural decision
+
+During development I considered a simpler approach where the application would increment todaySeconds every second:
+
+todaySeconds++;
+
+While this would have been easier to implement, I decided to use a timestamp-based solution instead.
+
+The final timer stores the moment when a session starts (startedAt) and calculates elapsed time from the difference between the current timestamp and the start timestamp.
+
+I chose this approach because I don't want to take shortcuts in my learning process. The implementation was harder to understand and required significantly more effort, but it helped me gain a deeper understanding of how timers, state management, and time calculations work in real applications.
+
+Key lesson
+
+One of the most important things I learned is the difference between:
+
+stored application state (todaySeconds)
+calculated display values (getDisplaySeconds())
+
+The timer does not continuously save every second to the state. Instead, it calculates what should be displayed to the user and only updates the stored time when a session is paused.
+
+Understanding this distinction was the main goal of this stage of the project.

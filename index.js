@@ -7,6 +7,7 @@ const detailView = document.getElementById("detailView")
 const homeView = document.getElementById("homeView");
 
 let activities = [];
+let currentActivityId = null;
 
 function saveToStorage() {
     localStorage.setItem("saved_activities", JSON.stringify(activities));
@@ -104,6 +105,7 @@ function openActivity(id) {
     const selectedActivity = activities.find(a => a.id === id);
 
     if (!selectedActivity) return;
+    currentActivityId = id;
 
     homeView.style.display = "none";
     detailView.style.display = "block";
@@ -115,7 +117,7 @@ function openActivity(id) {
     <button id="backBtn" class="back-btn">← Back</button>
     <div class="detail-card">
         <h2 class="detail-title">${selectedActivity.name}</h2>
-        <p class="detail-time">${formatTime(selectedActivity.todaySeconds)}</p>
+        <p class="detail-time">${formatTime(getDisplaySeconds(selectedActivity))}</p>
         <p class="detail-goal">${goalText}</p>
         <p class="detail-progress">${progress === null ? "" : `${progress}% of daily goal`}</p>
 
@@ -132,6 +134,7 @@ function openActivity(id) {
     backBtn.addEventListener("click", () => {
         detailView.style.display = "none";
         homeView.style.display = "block";
+        currentActivityId = null;
         renderActivities();
     });
 
@@ -140,11 +143,18 @@ function openActivity(id) {
     startBtn.addEventListener('click', () => {
         startTimer(id);
     });
+
+    const pauseBtn = document.getElementById("pauseBtn");
+
+    pauseBtn.addEventListener("click", () => {
+    pauseTimer(id);
+    });
+
 };
 
-function startTimer(id) {
+function startTimer(id){
     activities = activities.map(a => {
-        if (a.id === id) {
+        if(a.id === id) {
             return {
                 ...a,
                 isRunning: true,
@@ -153,6 +163,53 @@ function startTimer(id) {
         }
         return a
     });
+    saveTostorage();
+    openActivity(id);
+}
+
+function getDisplaySeconds(activity){
+    if(!activity.isRunning){
+        return activity.todaySeconds
+    }
+    const elepsedSeconds = Math.floor((Date.now() - activity.startedAt) / 1000);
+    return activity.todaySeconds + elepsedSeconds
+}
+
+function updateDetailTimer() {
+    if(currentActivityId === null) return;
+    const currentActivity = activities.find(a => a.id === currentActivityId);
+
+    if(!currentActivity) return;
+    if(!currentActivity.isRunning) return;
+
+    const detailTime = document.querySelector(".detail-time");
+
+    if(!detailTime) return;
+
+    detailTime.textContent = formatTime(getDisplaySeconds(currentActivity));
+    
+}
+
+function pauseTimer(id) {
+    activities = activities.map(a => {
+        if (a.id === id) {
+            if (!a.isRunning || a.startedAt === null){
+                return a;
+            }
+            
+            const elapsedSeconds = Math.floor((Date.now() - a.startedAt) / 1000);
+
+            return {
+                ...a,
+                todaySeconds: a.todaySeconds + elapsedSeconds,
+                isRunning: false,
+                startedAt: null
+            };
+        }
+
+        return a;
+    });
+
     saveToStorage();
     openActivity(id);
 }
@@ -181,6 +238,7 @@ function updateClock() {
 updateClock();
 
 setInterval(updateClock, 1000);
+setInterval(updateDetailTimer, 1000);
 
 loadFromStorage();
 renderActivities();
