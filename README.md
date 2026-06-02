@@ -223,3 +223,33 @@ calculated display values (getDisplaySeconds())
 The timer does not continuously save every second to the state. Instead, it calculates what should be displayed to the user and only updates the stored time when a session is paused.
 
 Understanding this distinction was the main goal of this stage of the project.
+
+## 03.06.2026
+
+Today I focused on improving the timer system and strengthening my understanding of the architecture behind it.
+
+Implemented:
+
+- Reset timer functionality
+- Confirmation modal before reset
+- Dynamic modal creation through JavaScript
+- Button state management (Start / Pause)
+- Protection against multiple Start clicks while a timer is already running
+
+Key lessons
+
+Today I spent a significant amount of time understanding why some functions receive an id argument and others rely on currentActivityId.
+
+A particularly important realization was understanding the difference between:
+
+- functions triggered directly by user actions (which usually receive id)
+- functions running independently through setInterval (which often need access to stored context)
+
+I also learned how HTML button properties such as disabled work. Instead of creating custom logic with if statements, I can use built-in browser behavior by assigning boolean values directly to DOM properties.
+
+Example:
+
+startBtn.disabled = selectedActivity.isRunning;
+pauseBtn.disabled = !selectedActivity.isRunning;
+
+This reinforced my understanding of state-driven UI, where interface behavior is derived directly from application state.

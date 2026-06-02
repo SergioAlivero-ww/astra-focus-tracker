@@ -139,22 +139,32 @@ function openActivity(id) {
     });
 
     const startBtn = document.getElementById("startBtn");
-
     startBtn.addEventListener('click', () => {
         startTimer(id);
     });
 
     const pauseBtn = document.getElementById("pauseBtn");
-
-    pauseBtn.addEventListener("click", () => {
+    pauseBtn.addEventListener('click', () => {
     pauseTimer(id);
     });
+
+    const resetBtn = document.getElementById("resetBtn");
+    resetBtn.addEventListener('click', () => {
+        showResetModal(id);
+    })
+
+
+   startBtn.disabled = selectedActivity.isRunning;
+   pauseBtn.disabled = !selectedActivity.isRunning;
 
 };
 
 function startTimer(id){
     activities = activities.map(a => {
         if(a.id === id) {
+            if (a.isRunning) {
+                return a;
+            }
             return {
                 ...a,
                 isRunning: true,
@@ -163,31 +173,8 @@ function startTimer(id){
         }
         return a
     });
-    saveTostorage();
+    saveToStorage();
     openActivity(id);
-}
-
-function getDisplaySeconds(activity){
-    if(!activity.isRunning){
-        return activity.todaySeconds
-    }
-    const elepsedSeconds = Math.floor((Date.now() - activity.startedAt) / 1000);
-    return activity.todaySeconds + elepsedSeconds
-}
-
-function updateDetailTimer() {
-    if(currentActivityId === null) return;
-    const currentActivity = activities.find(a => a.id === currentActivityId);
-
-    if(!currentActivity) return;
-    if(!currentActivity.isRunning) return;
-
-    const detailTime = document.querySelector(".detail-time");
-
-    if(!detailTime) return;
-
-    detailTime.textContent = formatTime(getDisplaySeconds(currentActivity));
-    
 }
 
 function pauseTimer(id) {
@@ -214,6 +201,78 @@ function pauseTimer(id) {
     openActivity(id);
 }
 
+function resetTimer(id) {
+    activities = activities.map(a => {
+        if (a.id === id) {
+            return {
+                ...a,
+                todaySeconds: 0,
+                isRunning: false,
+                startedAt: null
+            };
+        }
+        return a;
+    });
+    saveToStorage();
+    openActivity(id);
+}
+
+function showResetModal(id){
+    const overlay = document.createElement("div");
+    overlay.classList.add("modal-overlay");
+
+    overlay.innerHTML = `
+    <div class="reset-modal">
+    <p class="modal-label">Reset activity</p>
+    <h2 class="modal-h2">Are you sure?</h2>
+    <p class="modal-text">
+    This will reset time for this activity </p>
+
+        <div class="modal-actions">
+                <button id="cancelResetBtn" class="modal-btn ghost">Cancel</button>
+                <button id="confirmResetBtn" class="modal-btn danger">Reset</button>
+        </div>
+    </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    const cancelBtn = document.getElementById("cancelResetBtn");
+    const confirmBtn = document.getElementById("confirmResetBtn");
+
+    cancelBtn.addEventListener("click", () => {
+        overlay.remove();
+    });
+
+    confirmBtn.addEventListener("click", () => {
+        resetTimer(id);
+        overlay.remove();
+    });
+}
+
+
+function getDisplaySeconds(activity){
+   if (!activity.isRunning){
+    return activity.todaySeconds
+   }
+    const elepsedSeconds = Math.floor((Date.now() - activity.startedAt) / 1000);
+    return activity.todaySeconds + elepsedSeconds
+}
+
+function updateDetailTimer() {
+    if(currentActivityId === null) return;
+    const currentActivity = activities.find(a => a.id === currentActivityId);
+
+    if(!currentActivity) return;
+    if(!currentActivity.isRunning) return;
+
+    const detailTime = document.querySelector(".detail-time");
+
+    if(!detailTime) return;
+
+    detailTime.textContent = formatTime(getDisplaySeconds(currentActivity));
+    
+}
 
 function formatTime(seconds) {
     const hours = Math.floor(seconds / 3600);
@@ -242,4 +301,5 @@ setInterval(updateDetailTimer, 1000);
 
 loadFromStorage();
 renderActivities();
+
 
