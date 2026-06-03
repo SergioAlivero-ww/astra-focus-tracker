@@ -294,12 +294,31 @@ function updateClock() {
     clock.innerHTML = currentTime;
 }
 
+function dailyReset(){
+    const today = new Date().toISOString().split("T")[0];
+
+    activities = activities.map(a => {
+        if (a.lastResetDate !== today) {
+            return {
+                ...a,
+                todaySeconds: 0,
+                isRunning: false,
+                startedAt: null,
+                lastResetDate: today
+            };
+        }
+        return a;
+    });
+    saveToStorage();
+}
+
 updateClock();
 
 setInterval(updateClock, 1000);
 setInterval(updateDetailTimer, 1000);
 
 loadFromStorage();
+dailyReset();
 renderActivities();
 
 

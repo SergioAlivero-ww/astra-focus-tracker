@@ -253,3 +253,32 @@ startBtn.disabled = selectedActivity.isRunning;
 pauseBtn.disabled = !selectedActivity.isRunning;
 
 This reinforced my understanding of state-driven UI, where interface behavior is derived directly from application state.
+
+## 03.06.2026
+
+Implemented an automatic daily reset mechanism for all activities.
+
+The application now checks activity dates during startup and automatically resets activity progress when a new day is detected.
+
+Reset behavior:
+
+- todaySeconds → 0
+- isRunning → false
+- startedAt → null
+- lastResetDate → updated to current date
+
+Application startup flow:
+
+loadFromStorage()
+↓
+dailyReset()
+↓
+renderActivities()
+
+Key lesson
+
+Today I learned how startup logic can be used to keep application state valid before rendering any UI.
+
+I also learned the difference between user-triggered actions (Start, Pause, Reset) and automatic application processes that run during initialization.
+
+The daily reset system updates activity state only when necessary and persists the changes back to localStorage.
