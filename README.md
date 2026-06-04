@@ -282,3 +282,40 @@ Today I learned how startup logic can be used to keep application state valid be
 I also learned the difference between user-triggered actions (Start, Pause, Reset) and automatic application processes that run during initialization.
 
 The daily reset system updates activity state only when necessary and persists the changes back to localStorage.
+
+## 04.06.2026 
+
+Today I focused on keeping the Home View synchronized with the timer system.
+
+Implemented:
+
+- Live timer updates on activity cards
+- Automatic synchronization between Detail View and Home View
+- Timer display based on getDisplaySeconds(activity)
+- Grid timer updates running every second
+
+Key lesson
+
+Today I learned how to update multiple DOM elements using:
+
+- querySelectorAll()
+- forEach()
+- data-id attributes
+
+Each activity card stores its activity id in the DOM. This allows the application to find the corresponding activity in state and update its displayed timer without re-rendering the entire view.
+
+The update flow:
+
+setInterval()
+↓
+updateGridTimers()
+↓
+find activity by data-id
+↓
+getDisplaySeconds(activity)
+↓
+formatTime()
+↓
+update DOM element
+
+I also spent time debugging a real-world issue caused by an incorrect data-id 

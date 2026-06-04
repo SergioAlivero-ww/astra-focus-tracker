@@ -68,7 +68,7 @@ function renderActivities() {
 
         div.innerHTML = `
         <h3 class="divH3">${a.name}</h3>
-        <p class="activity-time">${formatTime(a.todaySeconds)}</p>
+        <p class="activity-time" data-id="${a.id}">${formatTime(getDisplaySeconds(a))}</p>
         <p class="activity-goal">${goalText}</p>
         <p class="activity-progress">
         ${progress === null ? "" : `${progress}% of daily goal`}
@@ -158,6 +158,20 @@ function openActivity(id) {
    pauseBtn.disabled = !selectedActivity.isRunning;
 
 };
+
+function updateGridTimers() {
+    const timeElements = document.querySelectorAll(".activity-time");
+    console.log("grid timer update");
+    timeElements.forEach(el => {
+        const id = Number(el.dataset.id);
+        const activity = activities.find(a => a.id === id);
+
+        if (!activity) return;
+
+        el.textContent = formatTime(getDisplaySeconds(activity));
+    });
+}
+
 
 function startTimer(id){
     activities = activities.map(a => {
@@ -316,6 +330,7 @@ updateClock();
 
 setInterval(updateClock, 1000);
 setInterval(updateDetailTimer, 1000);
+setInterval(updateGridTimers, 1000);
 
 loadFromStorage();
 dailyReset();
