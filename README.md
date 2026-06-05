@@ -1,4 +1,100 @@
 # Astra
+
+# Astra
+
+Astra is a minimalist focus time tracker built with Vanilla JavaScript.
+
+The application allows users to create activities, track time spent on them, set daily goals and monitor progress throughout the day.
+
+This project was created as part of my frontend learning journey after completing larger projects such as Journalist and smaller JavaScript exercises like Ritual.
+
+Rather than focusing on adding many features, Astra was designed to deepen my understanding of:
+
+* state management
+* UI rendering
+* localStorage persistence
+* timer architecture
+* derived state
+* DOM synchronization
+* application design
+
+## Features
+
+* Create and delete activities
+* Daily goals
+* Timestamp-based timer system
+* Start / Pause / Resume tracking
+* Live timer updates
+* Live progress tracking
+* Progress bar
+* Goal Achieved modal
+* Automatic daily reset
+* LocalStorage persistence
+* Responsive design
+
+## Tech Stack
+
+* HTML
+* CSS
+* Vanilla JavaScript
+* LocalStorage
+
+## Architecture Highlights
+
+### Timestamp-based timer
+
+Instead of incrementing time every second:
+
+```js
+todaySeconds++;
+```
+
+Astra stores the moment when tracking starts:
+
+```js
+startedAt = Date.now();
+```
+
+and calculates elapsed time from timestamps.
+
+This approach required more effort to understand but provided a much deeper understanding of timers, state transitions and time calculations.
+
+### Derived State
+
+Astra separates:
+
+* stored state
+* calculated state
+* rendered UI
+
+Example:
+
+* `todaySeconds` → stored state
+* `getDisplaySeconds()` → derived state
+* formatted timer in DOM → rendered UI
+
+### Daily Reset System
+
+Every application startup runs:
+
+```txt
+loadFromStorage()
+↓
+dailyReset()
+↓
+renderActivities()
+```
+
+This ensures activity data remains valid when a new day begins.
+
+## Learning Journal
+
+Below is the full development journal documenting the evolution of the project, architectural decisions and lessons learned during development.
+
+
+
+
+
 ## 08.05
 Minimalist time tracking application focused on conscious time awareness.
 
