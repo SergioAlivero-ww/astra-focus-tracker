@@ -1,7 +1,5 @@
 # Astra
 
-# Astra
-
 Astra is a minimalist focus time tracker built with Vanilla JavaScript.
 
 The application allows users to create activities, track time spent on them, set daily goals and monitor progress throughout the day.
