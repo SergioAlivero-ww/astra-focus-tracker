@@ -43,7 +43,8 @@ addBtn.addEventListener('click', () => {
         todaySeconds: 0,
         isRunning: false,
         startedAt: null,
-        lastResetDate
+        lastResetDate,
+        goalAchievedShown: false
     };
 
     activities.push(activity);
@@ -63,13 +64,12 @@ function renderActivities() {
         const goalText = a.goalHours === null
         ? "No daily goal" : `${a.goalHours}h / day`;
 
-        const progress = a.goalHours === null 
-        ? null : Math.round((a.todaySeconds / (a.goalHours * 3600)) * 100);
+       const progress = getProgress(a);
 
         div.innerHTML = `
         <h3 class="divH3">${a.name}</h3>
         <p class="activity-time" data-id="${a.id}">${formatTime(getDisplaySeconds(a))}</p>
-        <p class="activity-goal">${goalText}</p>
+        <p class="activity-goal" data-id="${a.id}">${goalText}</p>
         <p class="activity-progress">
         ${progress === null ? "" : `${progress}% of daily goal`}
         </p>
@@ -120,6 +120,10 @@ function openActivity(id) {
         <p class="detail-time">${formatTime(getDisplaySeconds(selectedActivity))}</p>
         <p class="detail-goal">${goalText}</p>
         <p class="detail-progress">${progress === null ? "" : `${progress}% of daily goal`}</p>
+        
+        <div class="detail-progress-track">
+            <div class="detail-progress-fill" style="width: ${progress === null ? 0 : Math.min(progress, 100)}%"></div>
+        </div>
 
         <div class="timer-controls">
             <button id="startBtn" class="timer-btn primary">Start</button>
@@ -161,7 +165,7 @@ function openActivity(id) {
 
 function updateGridTimers() {
     const timeElements = document.querySelectorAll(".activity-time");
-    console.log("grid timer update");
+    
     timeElements.forEach(el => {
         const id = Number(el.dataset.id);
         const activity = activities.find(a => a.id === id);
@@ -169,6 +173,13 @@ function updateGridTimers() {
         if (!activity) return;
 
         el.textContent = formatTime(getDisplaySeconds(activity));
+
+        const progressEl = document.querySelector(`.activity-progress[data-id="${id}]`);
+        const progress = getProgress(activity);
+
+        if(progressEl) {
+            progressEl.textContent = progress === null ? "" : `${progress}% of daily goal`;
+        }
     });
 }
 
@@ -264,6 +275,33 @@ function showResetModal(id){
     });
 }
 
+function showGoalAchievedModal(activityName) {
+    const overlay = document.createElement("div");
+    overlay.classList.add("modal-overlay");
+
+    overlay.innerHTML = `
+        <div class="reset-modal">
+            <p class="modal-label">Daily goal achieved</p>
+            <h2 class="modal-h2">Nice work</h2>
+            <p class="modal-text">
+                You completed your daily goal for ${activityName}.
+            </p>
+
+            <div class="modal-actions">
+                <button id="closeGoalModalBtn" class="modal-btn danger">Continue</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    const closeBtn = document.getElementById("closeGoalModalBtn");
+
+    closeBtn.addEventListener("click", () => {
+        overlay.remove();
+    });
+}
+
 
 function getDisplaySeconds(activity){
    if (!activity.isRunning){
@@ -271,6 +309,34 @@ function getDisplaySeconds(activity){
    }
     const elepsedSeconds = Math.floor((Date.now() - activity.startedAt) / 1000);
     return activity.todaySeconds + elepsedSeconds
+}
+
+function getProgress(activity){
+    if (activity.goalHours === null) return null;
+    const goalSeconds = activity.goalHours * 3600;
+    return Math.floor((getDisplaySeconds(activity) / goalSeconds) * 100);
+}
+
+function checkGoalAchieved(activity) {
+    const progress = getProgress(activity);
+
+    if (progress === null) return;
+    if (progress < 100) return;
+    if (activity.goalAchievedShown) return;
+
+    activities = activities.map(a => {
+        if (a.id === activity.id) {
+            return {
+                ...a,
+                goalAchievedShown: true
+            };
+        }
+
+        return a;
+    });
+
+    saveToStorage();
+    showGoalAchievedModal(activity.name);
 }
 
 function updateDetailTimer() {
@@ -281,11 +347,24 @@ function updateDetailTimer() {
     if(!currentActivity.isRunning) return;
 
     const detailTime = document.querySelector(".detail-time");
+    const detailProgress = document.querySelector(".detail-progress");
+    const detailProgressFill = document.querySelector(".detail-progress-fill");
 
     if(!detailTime) return;
 
     detailTime.textContent = formatTime(getDisplaySeconds(currentActivity));
-    
+
+    const progress = getProgress(currentActivity);
+
+     if (detailProgress) {
+        detailProgress.textContent = progress === null ? "" : `${progress}% of daily goal`;
+    }
+
+    if (detailProgressFill) {
+        detailProgressFill.style.width = `${progress === null ? 0 : Math.min(progress, 100)}%`;
+    }
+
+    checkGoalAchieved(currentActivity);
 }
 
 function formatTime(seconds) {
@@ -318,7 +397,8 @@ function dailyReset(){
                 todaySeconds: 0,
                 isRunning: false,
                 startedAt: null,
-                lastResetDate: today
+                lastResetDate: today,
+                goalAchievedShown: false
             };
         }
         return a;

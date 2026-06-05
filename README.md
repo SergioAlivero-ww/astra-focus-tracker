@@ -319,3 +319,55 @@ formatTime()
 update DOM element
 
 I also spent time debugging a real-world issue caused by an incorrect data-id 
+
+## 05.06.2026
+
+Today I focused on keeping all parts of Astra synchronized with application state.
+
+Implemented:
+
+Live progress updates in Home View
+Live progress updates in Detail View
+Progress bar in Detail View
+Goal Achieved modal
+Goal completion persistence
+Daily reset support for goal completion state
+
+Key lessons
+
+One of the most important things I learned today was the relationship between application state, derived values and DOM updates.
+
+Previously, Astra's timers were updating correctly, but progress percentages remained static. I fixed this by introducing a dedicated getProgress() function and updating progress values through the same live update cycle used by the timer system.
+
+This helped me better understand the difference between:
+
+stored state (todaySeconds)
+derived state (getDisplaySeconds(), getProgress())
+rendered UI
+
+I also learned how to synchronize multiple UI elements with the same piece of state using data-id attributes and DOM queries.
+
+Another important feature implemented today was the Goal Achieved system.
+
+When an activity reaches 100% of its daily goal:
+
+a completion modal is displayed
+the achievement is saved in state
+the modal is shown only once per day
+the achievement flag is automatically reset during the daily reset process
+
+This reinforced my understanding of event-driven UI and state persistence.
+
+Current Astra status:
+
+activity management
+localStorage persistence
+timestamp-based timer architecture
+live timer updates
+live progress updates
+progress bar
+goal completion system
+daily reset system
+reset confirmation modal
+
+At this point Astra feels like a complete portfolio project rather than a frontend exercise. The next step is not adding more features, but reviewing the architecture, strengthening my understanding of the codebase and preparing the project for deployment and portfolio presentation.

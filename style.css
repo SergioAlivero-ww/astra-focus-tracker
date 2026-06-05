@@ -474,6 +474,24 @@ body {
     transform: translateY(1px);
 }
 
+/* PROGRESS TRACK */
+
+.detail-progress-track {
+  width: min(420px, 80%);
+  height: 10px;
+  margin: 18px auto 0;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+}
+
+.detail-progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #93c5fd, #f9a8d4);
+  transition: width 0.35s ease;
+}
+
 @media (max-width: 900px) {
   #activitiesGrid {
     grid-template-columns: repeat(2, 1fr);
